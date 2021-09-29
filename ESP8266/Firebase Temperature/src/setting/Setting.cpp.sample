@@ -1,0 +1,26 @@
+#include "Setting.h"
+#include "EEPROM.h"
+#include "HardwareSerial.h"
+
+char Setting::WIFI_SSID[10] = "";
+char Setting::WIFI_PASSWORD[20] = "";
+char Setting::API_KEY[50] = "";
+char Setting::FIREBASE_PROJECT_ID[50] = "";
+char Setting::USER_EMAIL[50] = "";
+char Setting::USER_PASSWORD[50] = "";
+char Setting::MQTT_SERVER[50] = "";
+int  Setting::MQTT_PORT = 8883;
+char Setting::MQTT_TOKEN[255] = "";
+
+void Setting::init() {
+    Serial.print("==== Begin Read Setting====");
+    Setting setting;
+    EEPROM.begin(sizeof(setting));
+    EEPROM.get(0, setting);
+    * this = setting;
+}
+
+void Setting::save() {
+    EEPROM.put(0, * this);
+    EEPROM.commit();
+}
